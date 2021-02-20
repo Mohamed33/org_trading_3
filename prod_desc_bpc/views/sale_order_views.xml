@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="before">
-<!--                 <field name="product_item_code"/> -->
+                <field name="product_item_code" string="Item Name"/>
                 <field name="product_brand"/>
                 <field name="model_number"/>
                 <field name="gender"/>
@@ -25,11 +25,11 @@
       <field name="name">sale.order.search.expand.filter</field>
       <field name="model">sale.order</field>
       <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
-      <field name="arch" type="xml">
+<!--       <field name="arch" type="xml">
           <xpath expr="//search" position="inside">
               <field name="product_item_code"/>
           </xpath>
       </field>
-    </record>
+ -->    </record>
 
 </odoo>

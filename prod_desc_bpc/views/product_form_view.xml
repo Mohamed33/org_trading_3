@@ -7,12 +7,16 @@
         <field name="inherit_id" ref="product.product_product_tree_view"/>
         <field name="arch" type="xml">
             <field name="lst_price" position="before">
+                
+                <field name="product_item_code" string="Item Name"/>
                 <field name="product_brand"/>
                 <field name="model_number"/>
                 <field name="product_size"/>
                 <field name="gender"/>
                 <field name="status"/>
                 <field name="attachments"/>
+
+                
             </field>
         </field>
     </record>
@@ -26,6 +30,7 @@
                 <label class="oe_edit_only" for="product_code" string="Product Code"/>
                 <h1>
                     <field name="product_code" placeholder="Product Code"/>
+                    <field name="product_item_code" string="Item Name"/>
                 </h1>
             </xpath>
             <field name="categ_id" position="before">
@@ -40,7 +45,7 @@
                 <!--<field name="attachments"/>-->
                 
                 <!--az_modif-->
-                <!--<field name="product_item_code"/>-->
+                <!-- <field name="product_item_code"/> -->
 <!--                <field name="product_type"/>-->
             </field>
             <field name="type" position="before">
@@ -57,7 +62,7 @@
         <field name="inherit_id" ref="product.product_search_form_view"/>
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="product_item_code"/>
+                <field name="product_item_code" string="Item Name"/>
                 <field name="model_number"/>
             </field>
         </field>
