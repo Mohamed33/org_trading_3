@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prod_desc_bpc_normal_user,prod.desc.normal.user,model_product_brand,,1,1,1,1
+access_product_model,access_product_model,model_product_model,,1,1,1,1
+access_product_size,access_product_size,model_product_size,,1,1,1,1
+access_product_gender,access_product_gender,model_product_gender,base.group_user,1,1,1,1
+access_product_status,access_product_status,model_product_status,base.group_user,1,1,1,1
+access_product_attachments,access_product_attachments,model_product_attachments,base.group_user,1,1,1,1
+access_product_type,access_product_type,model_product_type,base.group_user,1,1,1,1

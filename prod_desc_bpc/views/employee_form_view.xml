@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_employee_form_inherited" model="ir.ui.view">
+        <field name="name">view_employee_inherited_form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="emp_code" placeholder="Employee's Code"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="emp_code_sequence" model="ir.sequence">-->
+<!--        <field name="name">Employee Code</field>-->
+<!--        <field name="code">emp.code</field>-->
+<!--        <field name="prefix">EC</field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+
+</odoo>

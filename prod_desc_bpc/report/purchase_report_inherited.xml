@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_purchase_order_inherit" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr = "//table/thead/tr/th[@name='th_quantity']" position="before">
+            <th name="th_itemcode" class="text-center">Product Item Code</th>
+            <th name="th_productbrand" class="text-center">Product Brand</th>
+            <th name="th_partnumber" class="text-center">Part Number</th>
+        </xpath>
+        <xpath expr = "//tbody/t/tr/t/td[4]" position="before">
+            <td class="text-right">
+                <span t-field="line.product_item_code"/>
+            </td>
+            <td class="text-center">
+                <span t-field="line.product_brand.name"/>
+            </td>
+            <td class="text-right">
+                <span t-field="line.model_number.name"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_purchase_quotation_inherit" inherit_id="purchase.report_purchasequotation_document">
+        <xpath expr = "//table/thead/tr/th[@name='th_quantity']" position="before">
+            <th name="th_itemcode" class="text-center">Product Item Code</th>
+            <th name="th_productbrand" class="text-center">Product Brand</th>
+            <th name="th_partnumber" class="text-center">Part Number</th>
+        </xpath>
+        <xpath expr = "//tbody/t/tr/t/td[3]" position="before">
+            <td class="text-right">
+                <span t-field="order_line.product_item_code"/>
+            </td>
+            <td class="text-center">
+                <span t-field="order_line.product_brand.name"/>
+            </td>
+            <td class="text-right">
+                <span t-field="order_line.model_number.name"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>
