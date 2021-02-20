@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Create Gender -->
+    <record id="demo_male" model="product.gender">
+        <field name="name">Male</field>
+    </record>
+
+    <record id="demo_female" model="product.gender">
+        <field name="name">Female</field>
+    </record>
+
+    <!-- Create Status -->
+    <record id="demo_new" model="product.status">
+        <field name="name">New</field>
+    </record>
+
+    <record id="demo_used" model="product.status">
+        <field name="name">Used</field>
+    </record>
+
+    <!-- Create Attachments -->
+    <record id="demo_box_and_warranty" model="product.attachments">
+        <field name="name">Box and Warranty</field>
+    </record>
+
+    <record id="demo_only_box" model="product.attachments">
+        <field name="name">Only Box</field>
+    </record>
+
+    <record id="demo_no_attachments" model="product.attachments">
+        <field name="name">No Attachments</field>
+    </record>
+
+    <!-- Create Types -->
+    <record id="demo_consu" model="product.type">
+        <field name="name">Consumable</field>
+        <field name="value">consu</field>
+    </record>
+
+    <record id="demo_service" model="product.type">
+        <field name="name">Service</field>
+        <field name="value">service</field>
+    </record>
+
+    <record id="demo_product" model="product.type">
+        <field name="name">Storable Product</field>
+        <field name="value">product</field>
+    </record>
+</odoo>

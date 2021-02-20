@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_inventory_line_tree_part_number" model="ir.ui.view">
+        <field name="name">stock.inventory.line.tree.inh</field>
+        <field name="model">stock.inventory.line</field>
+        <field name="inherit_id" ref="stock.stock_inventory_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="before">
+                <field name="model_number" options="{'no_create': True}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_stock_picking_inherited" model="ir.ui.view">
+        <field name="name">view_stock_picking_inherited_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description_picking']" position="after">
+                <field name="product_item_code"/>
+                <field name="product_brand"/>
+                <field name="model_number"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_picking_inherit_search" model="ir.ui.view">
+      <field name="name">stock.picking.search.expand.filter</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+      <field name="arch" type="xml">
+<!--          <xpath expr="//search" position="inside">-->
+          <field name="product_id" position="after">
+              <field name="product_item_code"/>
+          </field>
+
+      </field>
+    </record>
+
+</odoo>

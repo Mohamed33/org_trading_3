@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="tree_view_product_brand" model="ir.ui.view">
+                <field name="name">view_product_brand_tree</field>
+                <field name="model">product.brand</field>
+                <field name="arch" type="xml">
+                    <tree string="Product Brand">
+                        <field name="name"/>
+                    </tree>
+                </field>
+    </record>
+
+    <record id="form_view_product_brand" model="ir.ui.view">
+                <field name="name">view_product_brand_form</field>
+                <field name="model">product.brand</field>
+                <field name="arch" type="xml">
+                    <form string="Product Brand">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="model_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                            </group>
+<!--                            <field name="name"/>-->
+<!--                            <field name="model_ids">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="name"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+                        </group>
+                    </sheet>
+                    </form>
+                </field>
+    </record>
+
+    <record id="action_for_product_brand" model="ir.actions.act_window">
+        <field name="name">Product Brand</field>
+        <field name="res_model">product.brand</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_brand_menu" name="Product Brand" action="action_for_product_brand" parent="stock.menu_stock_inventory_control"/>
+
+    <record id="tree_view_product_model" model="ir.ui.view">
+                <field name="name">view_product_model_tree</field>
+                <field name="model">product.model</field>
+                <field name="arch" type="xml">
+                    <tree string="Product model">
+                        <field name="name"/>
+                        <field name="brand_id"/>
+                    </tree>
+                </field>
+    </record>
+
+    <record id="form_view_product_model" model="ir.ui.view">
+                <field name="name">view_product_model_form</field>
+                <field name="model">product.model</field>
+                <field name="arch" type="xml">
+                    <form string="Product Brand">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="brand_id"/>
+                        </group>
+                    </sheet>
+                    </form>
+                </field>
+    </record>
+
+    <record id="action_for_product_model" model="ir.actions.act_window">
+        <field name="name">Product Model</field>
+        <field name="res_model">product.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_model_menu" name="Product Model" action="action_for_product_model" parent="stock.menu_stock_inventory_control"/>
+
+    <record id="tree_view_product_size" model="ir.ui.view">
+                <field name="name">view_product_size_tree</field>
+                <field name="model">product.size</field>
+                <field name="arch" type="xml">
+                    <tree string="Product Size">
+                        <field name="name"/>
+                    </tree>
+                </field>
+    </record>
+
+    <record id="form_view_product_size" model="ir.ui.view">
+        <field name="name">view_product_size_form</field>
+        <field name="model">product.size</field>
+        <field name="arch" type="xml">
+            <form string="Product Size">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_for_product_size" model="ir.actions.act_window">
+        <field name="name">Product Size</field>
+        <field name="res_model">product.size</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_size_menu" name="Product Size" action="action_for_product_size" parent="stock.menu_stock_inventory_control"/>
+
+    <record id="product_gender_view_tree" model="ir.ui.view">
+        <field name="name">product.gender.tree</field>
+        <field name="model">product.gender</field>
+        <field name="arch" type="xml">
+            <tree string="Gender">
+                    <field name="name"/>
+            </tree>
+        </field>
+     </record>
+
+    <record id="form_view_product_gender" model="ir.ui.view">
+        <field name="name">view_product_gender_form</field>
+        <field name="model">product.gender</field>
+        <field name="arch" type="xml">
+            <form string="Gender">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_for_product_gender" model="ir.actions.act_window">
+        <field name="name">Gender</field>
+        <field name="res_model">product.gender</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_gender_menu" name="Gender" action="action_for_product_gender" parent="stock.menu_stock_inventory_control"/>
+
+    <record id="product_status_view_tree" model="ir.ui.view">
+        <field name="name">product.status.tree</field>
+        <field name="model">product.status</field>
+        <field name="arch" type="xml">
+            <tree string="Status">
+                    <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="form_view_product_status" model="ir.ui.view">
+        <field name="name">view_product_status_form</field>
+        <field name="model">product.status</field>
+        <field name="arch" type="xml">
+            <form string="Status">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_for_product_status" model="ir.actions.act_window">
+        <field name="name">Product Status</field>
+        <field name="res_model">product.status</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_status_menu" name="Status" action="action_for_product_status" parent="stock.menu_stock_inventory_control"/>
+
+    <record id="product_attachments_view_tree" model="ir.ui.view">
+        <field name="name">product.attachments.tree</field>
+        <field name="model">product.attachments</field>
+        <field name="arch" type="xml">
+            <tree string="Attachments">
+                    <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="form_view_product_attachments" model="ir.ui.view">
+        <field name="name">view_product_attachments_form</field>
+        <field name="model">product.attachments</field>
+        <field name="arch" type="xml">
+            <form string="Attachments">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_for_product_attachments" model="ir.actions.act_window">
+        <field name="name">Product Attachments</field>
+        <field name="res_model">product.attachments</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="product_attachments_menu" name="Attachments" action="action_for_product_attachments" parent="stock.menu_stock_inventory_control"/>
+
+
+<!--    <record id="product_type_view_tree" model="ir.ui.view">-->
+<!--        <field name="name">product.type.tree</field>-->
+<!--        <field name="model">product.type</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree string="Product Type">-->
+<!--                    <field name="name"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
