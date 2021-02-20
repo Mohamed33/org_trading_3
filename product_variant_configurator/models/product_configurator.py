@@ -267,6 +267,14 @@ class ProductConfigurator(models.AbstractModel):
         if self.product_id:
             return self.product_id
         product_obj = self.env["product.product"]
+        product_brand_obj = self.env["product.brand"]
+        product_model_obj = self.env["product.model"]
+        product_size_obj = self.env["product.size"]
+        product_gender_obj = self.env["product.gender"]
+        product_brand_id = ''
+        product_model_id = ''
+        product_size_id = ''
+        product_gender_id = ''
         product = product_obj._product_find(
             self.product_tmpl_id, self.product_attribute_ids,
         )
@@ -275,7 +283,7 @@ class ProductConfigurator(models.AbstractModel):
                 "product.template.attribute.value"
             ].browse()
             for product_attribute_value in self.product_attribute_ids.mapped(
-                "value_id"
+                    "value_id"
             ):
                 product_attribute = product_attribute_value.attribute_id
                 existing_attribute_line = self.product_tmpl_id.attribute_line_ids.filtered(  # noqa
@@ -284,9 +292,42 @@ class ProductConfigurator(models.AbstractModel):
                 product_template_attribute_values |= existing_attribute_line.product_template_value_ids.filtered(  # noqa
                     lambda v: v.product_attribute_value_id == product_attribute_value
                 )
+                if product_attribute.name == "Brand":
+                    product_brand = product_brand_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_brand:
+                        product_brand = product_brand_obj.create({"name": product_attribute_value.name})
+                    product_brand_id = product_brand.id
+
+                elif product_attribute.name == "Model":
+                    product_model = product_model_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_model:
+                        product_model = product_model_obj.create(
+                            {
+                                "name": product_attribute_value.name,
+                                "brand_id": product_brand_id
+                             }
+                        )
+                    product_model_id = product_model.id
+
+                elif product_attribute.name == "Size":
+                    product_size = product_size_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_size:
+                        product_size = product_size_obj.create({"name": product_attribute_value.name})
+                    product_size_id = product_size.id
+
+                elif product_attribute.name == "Gender":
+                    product_gender = product_gender_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_gender:
+                        product_gender = product_gender_obj.create({"name": product_attribute_value.name})
+                    product_gender_id = product_gender.id
+
             product = product_obj.create(
                 {
                     "product_tmpl_id": self.product_tmpl_id.id,
+                    "product_brand": product_brand_id,
+                    "model_number": product_model_id,
+                    "product_size": product_size_id,
+                    "gender": product_gender_id,
                     "product_template_attribute_value_ids": [
                         (6, 0, product_template_attribute_values.ids)
                     ],
