@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form_purchase_agent" model="ir.ui.view">
+        <field name="name">res.partner.form.agent</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority" eval="18" />
+        <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='sales_purchases']//field[@name='property_supplier_payment_term_id']"
+                position="after"
+            >
+                <field name="purchase_agent" string="Purchase Agent" />
+            </xpath>
+            <xpath
+                expr="//page[@name='sales_purchases']//field[@name='user_id']"
+                position="after"
+            >
+                <field
+                    name="purchase_agent_ids"
+                    widget="many2many_tags"
+                    context="{'default_purchase_agent': True}"
+                />
+            </xpath>
+            <page name="sales_purchases" position="after">
+                <page
+                    name="agent_information"
+                    string="Purchase Agent information"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('purchase_agent', '=', False)]}"
+                >
+                    <group>
+                        <group>
+                            <field name="purchase_agent_type" required="1" />
+                            <field
+                                name="purchase_commission_id"
+                                attrs="{'required': [('purchase_agent', '=', True)]}"
+                            />
+                        </group>
+                        <group>
+                            <field name="settlement" required="1" />
+                        </group>
+                        <!-- TODO: Change it to smart-button -->
+                        <group
+                            colspan="4"
+                            string="Purchase Settlements"
+                            attrs="{'invisible': [('purchase_settlement_ids', '=', [])]}"
+                        >
+                            <field name="purchase_settlement_ids" nolabel="1">
+                                <tree
+                                    string="Purchase Settlements"
+                                    colors="red: state == 'cancel'; gray: state == 'invoiced'"
+                                >
+                                    <field name="date_from" />
+                                    <field name="date_to" />
+                                    <field name="total" sum="Settled total" />
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+    <record id="res_partner_purchase_view_search" model="ir.ui.view">
+        <field name="name">res.partner.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.res_partner_view_search" />
+        <field name="arch" type="xml">
+            <filter name="customer" position="after">
+                <filter
+                    string="Purchase Agents"
+                    name="purchase_agent"
+                    domain="[('purchase_agent', '=', 1)]"
+                    help="Purchase Agent Partners"
+                />
+            </filter>
+        </field>
+    </record>
+    <record id="action_purchase_agent_form" model="ir.actions.act_window">
+        <field name="name">Purchase Agents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="binding_view_types">form,kanban,tree</field>
+        <field
+            name="context"
+        >{"search_default_agent": 1, 'default_purchase_agent': 1, 'default_customer': 0, 'default_supplier': 1}</field>
+        <field name="search_view_id" ref="res_partner_purchase_view_search" />
+    </record>
+    <menuitem
+        id="menu_purchase_agent_form"
+        parent="menu_purchase_commissions_management"
+        action="action_purchase_agent_form"
+        sequence="3"
+    />
+</odoo>

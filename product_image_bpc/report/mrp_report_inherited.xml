@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_mrp_inherit" inherit_id="mrp.report_mrporder">
+        <xpath expr = "//table/thead/tr/th[1]" position="before">
+            <th name="th_itemimage" class="text-left">Product Image</th>
+        </xpath>
+        <xpath expr = "//tbody//tr/td[1]" position="before">
+            <td name="td_itemimage" class="text-left">
+                <img t-if="raw_line.product_image" t-att-src="'data:image/png;base64,%s' % to_text(raw_line.product_image)" style="width: 50%"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_mrp_bom_inherit" inherit_id="mrp.report_mrp_bom">
+        <xpath expr = "//table/thead/tr/th[1]" position="before">
+            <th name="th_itemimage" class="text-left">Product Image</th>
+        </xpath>
+        <xpath expr = "//tbody/tr/td[1]" position="before">
+            <td name="td_itemimage" class="text-left">
+                <img t-if="data['product'].image_1920" t-att-src="'data:image/png;base64,%s' % to_text(data['product'].image_1920)" style="width: 10%"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_mrp_bom_line_inherit" inherit_id="mrp.report_mrp_bom_pdf_line">
+        <xpath expr = "//tr/td[1]" position="before">
+            <td name="td_itemimage" class="text-left">
+                <t t-if="l[prod_id]">
+                    <t t-set="product_id" t-value="request.env['product.product'].sudo().search([('id', '=', l['prod_id'])])"> </t>
+                    <img t-if="product_id.image_1920" t-att-src="'data:image/png;base64,%s' % to_text(product_id.image_1920)" style="width: 10%"/>
+                </t>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

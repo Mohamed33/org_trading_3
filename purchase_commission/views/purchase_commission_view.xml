@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="purchase_commission_tree">
+        <field name="name">Purchase commissions tree</field>
+        <field name="model">purchase.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions">
+                <field name="name" />
+                <field name="purchase_commission_type" />
+                <field name="purchase_amount_base_type" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="purchase_commission_form">
+        <field name="name">Purchase commissions form</field>
+        <field name="model">purchase.commission</field>
+        <field name="arch" type="xml">
+            <form string="Commission">
+                <group string="General information">
+                    <group>
+                        <field name="name" />
+                        <field name="purchase_active" />
+                    </group>
+                    <group>
+                        <field name="purchase_commission_type" />
+                        <field name="purchase_amount_base_type" />
+                        <field name="invoice_state" />
+                    </group>
+                </group>
+                <group string="Rates definition" colspan="4">
+                    <group colspan="2">
+                        <field
+                            name="purchase_fix_qty"
+                            attrs="{'invisible': [('purchase_commission_type', '==', 'section')], 'required': [('purchase_commission_type', 'in', ['fixed','fixed amount'])]}"
+                        />
+                    </group>
+                    <field
+                        name="purchase_section_ids"
+                        widget="one2many_list"
+                        colspan="4"
+                        nolabel="1"
+                        attrs="{'invisible': [('purchase_commission_type', '!=', 'section')]}"
+                    >
+                        <tree string="Sections" editable="bottom">
+                            <field name="purchase_amount_from" />
+                            <field name="purchase_amount_to" />
+                            <field name="purchase_percent" />
+                        </tree>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_commission">
+        <field name="name">Commission types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.commission</field>
+        <field name="binding_view_types">form,tree</field>
+    </record>
+    <menuitem
+        name="Commissions Management"
+        id="menu_purchase_commissions_management"
+        parent="purchase.menu_purchase_root"
+        groups="purchase.group_purchase_user"
+        sequence="4"
+    />
+    <menuitem
+        name="Commission types"
+        id="menu_purchase_commissions_types"
+        parent="menu_purchase_commissions_management"
+        action="action_commission"
+    />
+</odoo>
