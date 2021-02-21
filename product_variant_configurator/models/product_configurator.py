@@ -270,11 +270,17 @@ class ProductConfigurator(models.AbstractModel):
         product_brand_obj = self.env["product.brand"]
         product_model_obj = self.env["product.model"]
         product_size_obj = self.env["product.size"]
+        product_attachments_obj = self.env["product.attachments"]
+        product_status_obj = self.env["product.status"]
         product_gender_obj = self.env["product.gender"]
+        manufacturing_year = ''
         product_brand_id = ''
         product_model_id = ''
         product_size_id = ''
         product_gender_id = ''
+        product_attachments_id = ''
+        product_status_id = ''
+
         product = product_obj._product_find(
             self.product_tmpl_id, self.product_attribute_ids,
         )
@@ -292,7 +298,10 @@ class ProductConfigurator(models.AbstractModel):
                 product_template_attribute_values |= existing_attribute_line.product_template_value_ids.filtered(  # noqa
                     lambda v: v.product_attribute_value_id == product_attribute_value
                 )
-                if product_attribute.name == "Brand":
+                if product_attribute.name == "Manufacturing Year":
+                    manufacturing_year = product_attribute_value.name
+
+                elif product_attribute.name == "Brand":
                     product_brand = product_brand_obj.search([['name','=',product_attribute_value.name]])
                     if not product_brand:
                         product_brand = product_brand_obj.create({"name": product_attribute_value.name})
@@ -321,13 +330,28 @@ class ProductConfigurator(models.AbstractModel):
                         product_gender = product_gender_obj.create({"name": product_attribute_value.name})
                     product_gender_id = product_gender.id
 
+                elif product_attribute.name == "Attachments":
+                    product_attachments = product_attachments_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_attachments:
+                        product_attachments = product_attachments_obj.create({"name": product_attribute_value.name})
+                    product_attachments_id = product_attachments.id
+
+                elif product_attribute.name == "Status":
+                    product_status = product_status_obj.search([['name','=',product_attribute_value.name]])
+                    if not product_status:
+                        product_status = product_status_obj.create({"name": product_attribute_value.name})
+                    product_status_id = product_status.id
+
             product = product_obj.create(
                 {
                     "product_tmpl_id": self.product_tmpl_id.id,
+                    "manufacturing_year": manufacturing_year,
                     "product_brand": product_brand_id,
                     "model_number": product_model_id,
                     "product_size": product_size_id,
                     "gender": product_gender_id,
+                    "attachments": product_attachments_id,
+                    "status": product_status_id,
                     "product_template_attribute_value_ids": [
                         (6, 0, product_template_attribute_values.ids)
                     ],

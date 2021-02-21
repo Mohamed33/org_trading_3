@@ -139,6 +139,24 @@ class ProductProduct(models.Model):
 
     @api.model
     def create(self, vals):
+        print(vals)
+        product_attribute_obj = self.env["product.attribute"]
+        product_attribute_value_obj = self.env["product.attribute.value"]
+        product_obj = self.env["product.product"]
+        product_brand_obj = self.env["product.brand"]
+        product_model_obj = self.env["product.model"]
+        product_size_obj = self.env["product.size"]
+        product_attachments_obj = self.env["product.attachments"]
+        product_status_obj = self.env["product.status"]
+        product_gender_obj = self.env["product.gender"]
+        manufacturing_year = ''
+        product_brand_id = ''
+        product_model_id = ''
+        product_size_id = ''
+        product_gender_id = ''
+        product_attachments_id = ''
+        product_status_id = ''
+
         if vals.get("product_attribute_ids"):
             ptav = (
                 self.env["product.template.attribute.value"]
@@ -173,7 +191,52 @@ class ProductProduct(models.Model):
                 )
                 .ids
             )
+            for x in vals["product_attribute_ids"]:
+                product_attribute_b = product_attribute_obj.browse(x[2]["attribute_id"])
+                product_attribute_value_b = product_attribute_value_obj.browse(x[2]["value_id"])
+                if product_attribute_b.name == "Manufacturing Year":
+                    manufacturing_year = product_attribute_value_b.name
+                if product_attribute_b.name == "Brand":
+                    product_brand = product_brand_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_brand:
+                        product_brand = product_brand_obj.create({"name": product_attribute_value_b.name})
+                    product_brand_id = product_brand.id
+                if product_attribute_b.name == "Model":
+                    product_model = product_model_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_model:
+                        product_model = product_model_obj.create({"name": product_attribute_value_b.name})
+                    product_model_id = product_model.id
+                if product_attribute_b.name == "Size":
+                    product_size = product_size_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_size:
+                        product_size = product_size_obj.create({"name": product_attribute_value_b.name})
+                    product_size_id = product_size.id
+                if product_attribute_b.name == "Gender":
+                    product_gender = product_gender_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_gender:
+                        product_gender = product_gender_obj.create({"name": product_attribute_value_b.name})
+                    product_gender_id = product_gender.id
+                if product_attribute_b.name == "Attachments":
+                    product_attachments = product_attachments_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_attachments:
+                        product_attachments = product_attachments_obj.create({"name": product_attribute_value_b.name})
+                    product_attachments_id = product_attachments.id
+                if product_attribute_b.name == "Status":
+                    product_status = product_status_obj.search([['name', '=', product_attribute_value_b.name]])
+                    if not product_status:
+                        product_status = product_status_obj.create({"name": product_attribute_value_b.name})
+                    product_status_id = product_status.id
+                # print(manufacturing_year)
             vals.pop("product_attribute_ids")
             vals["product_template_attribute_value_ids"] = [(4, x) for x in ptav]
+            vals["manufacturing_year"] = manufacturing_year
+            vals["product_brand"] = product_brand_id
+            vals["model_number"] = product_model_id
+            vals["product_size"] = product_size_id
+            vals["gender"] = product_gender_id
+            vals["attachments"] = product_attachments_id
+            vals["status"] = product_status_id
+
+
         obj = self.with_context(product_name=vals.get("name", ""))
         return super(ProductProduct, obj).create(vals)
