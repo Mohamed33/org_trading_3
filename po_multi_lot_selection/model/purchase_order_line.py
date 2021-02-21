@@ -8,6 +8,11 @@ class PurchaseOrderLine(models.Model):
     lot_ids = fields.Many2many('stock.production.lot', string='Lot', copy=False)
 
     def _create_stock_moves(self, picking):
-        res = super(PurchaseOrderLine, self)._create_stock_moves(picking)
-        res['lot_ids'] = [(6, 0, self.lot_ids.ids)]
-        return res
+        values = []
+        for line in self.filtered(lambda l: not l.display_type):
+            for val in line._prepare_stock_moves(picking):
+                val.update({"lot_ids": self.lot_ids})
+                values.append(val)
+            line.move_dest_ids.created_purchase_line_id = False
+
+        return self.env['stock.move'].create(values)
